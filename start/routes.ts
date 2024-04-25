@@ -20,12 +20,18 @@
 
 import Route from "@ioc:Adonis/Core/Route";
 
-Route.group(() => {
-  Route.get("/", async () => {
-    return { hello: "world" };
-  });
+Route.get("/", async () => {
+  return { hello: "world" };
+});
 
-  Route.get("/todo", "TodosController.index");
-  Route.post("/todo", "TodosController.store");
-  Route.patch("/todo/:id", "TodosController.update");
+Route.group(() => {
+  /**Todo routes with auth grouped */
+  Route.group(() => {
+    Route.get("/todo", "TodosController.index");
+    Route.post("/todo", "TodosController.store");
+    Route.patch("/todo/:id", "TodosController.update");
+  }).middleware("auth");
+
+  /**Register route */
+  Route.post("/register", "RegistersController.index");
 }).prefix("api");
